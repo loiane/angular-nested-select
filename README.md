@@ -5,5 +5,5 @@ Example demonstrating nested selects (Reactive Forms) using Countries, States an
 [Edit on StackBlitz ⚡️](https://stackblitz.com/edit/angular-nested-select)
 
 <p align="center">
-  <img src="angular-nested-select.png" alt="Angular Nested Selecto">
+  <img src="angular-nested-select.png" alt="Angular Nested Selects">
 </p>
