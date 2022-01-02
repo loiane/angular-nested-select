@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as countrycitystatejson from 'countrycitystatejson';
 
 interface Country {
@@ -23,14 +23,28 @@ export class AppComponent implements OnInit {
   constructor(private fb: FormBuilder) {
     this.countries = this.countryData.getCountries();
     this.form = this.fb.group({
-      country: [null],
-      state: [null],
-      city: [null],
+      country: [null, Validators.required],
+      state: [null, Validators.required],
+      city: [null, Validators.required],
     });
   }
 
   ngOnInit() {
-    this.states = this.countryData.getStatesByShort('US');
-    this.cities = this.countryData.getCities('US', 'Florida');
+    this.form.get('country').valueChanges.subscribe((country) => {
+      this.form.get('state').reset();
+      if (country) {
+        this.states = this.countryData.getStatesByShort(country);
+      }
+    });
+
+    this.form.get('state').valueChanges.subscribe((state) => {
+      this.form.get('city').reset();
+      if (state) {
+        this.cities = this.countryData.getCities(
+          this.form.get('country').value,
+          state
+        );
+      }
+    });
   }
 }

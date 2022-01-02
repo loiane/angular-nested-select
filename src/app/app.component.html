@@ -11,7 +11,11 @@
   <p></p>
   <mat-form-field appearance="fill">
     <mat-label>State</mat-label>
-    <mat-select formControlName="state" name="state">
+    <mat-select
+      formControlName="state"
+      name="state"
+      [disabled]="!form.get('country').value"
+    >
       <mat-option *ngFor="let state of states" [value]="state">
         {{ state }}
       </mat-option>
@@ -20,7 +24,11 @@
   <p></p>
   <mat-form-field appearance="fill">
     <mat-label>City</mat-label>
-    <mat-select formControlName="city" name="city">
+    <mat-select
+      formControlName="city"
+      name="city"
+      [disabled]="!form.get('state').value"
+    >
       <mat-option *ngFor="let city of cities" [value]="city">
         {{ city }}
       </mat-option>
