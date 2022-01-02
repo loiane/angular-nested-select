@@ -1,8 +1,8 @@
-<form>
+<form [formGroup]="form">
   <h4>Nested Selects: Country-State-City</h4>
   <mat-form-field appearance="fill">
     <mat-label>Country</mat-label>
-    <mat-select [(ngModel)]="selectedValue" name="country">
+    <mat-select formControlName="country" name="country">
       <mat-option *ngFor="let country of countries" [value]="country.shortName">
         {{ country.name }}
       </mat-option>
@@ -11,19 +11,22 @@
   <p></p>
   <mat-form-field appearance="fill">
     <mat-label>State</mat-label>
-    <mat-select [(ngModel)]="selectedValue" name="state">
-      <mat-option *ngFor="let food of foods" [value]="food.value">
-        {{ food.viewValue }}
+    <mat-select formControlName="state" name="state">
+      <mat-option *ngFor="let state of states" [value]="state">
+        {{ state }}
       </mat-option>
     </mat-select>
   </mat-form-field>
   <p></p>
   <mat-form-field appearance="fill">
     <mat-label>City</mat-label>
-    <mat-select [(ngModel)]="selectedValue" name="city">
-      <mat-option *ngFor="let food of foods" [value]="food.value">
-        {{ food.viewValue }}
+    <mat-select formControlName="city" name="city">
+      <mat-option *ngFor="let city of cities" [value]="city">
+        {{ city }}
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <p>Country: {{ form.get('country')?.value }}</p>
+  <p>State: {{ form.get('state')?.value }}</p>
+  <p>City: {{ form.get('city')?.value }}</p>
 </form>

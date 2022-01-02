@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import * as countrycitystatejson from 'countrycitystatejson';
-
-interface Food {
-  value: string;
-  viewValue: string;
-}
 
 interface Country {
   shortName: string;
@@ -17,17 +13,24 @@ interface Country {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  selectedValue: string;
+  form: FormGroup;
+
   private countryData = countrycitystatejson;
   countries: Country[];
+  states: any[];
+  cities: any[];
 
-  ngOnInit() {
+  constructor(private fb: FormBuilder) {
     this.countries = this.countryData.getCountries();
+    this.form = this.fb.group({
+      country: [null],
+      state: [null],
+      city: [null],
+    });
   }
 
-  foods: Food[] = [
-    { value: 'steak-0', viewValue: 'Steak' },
-    { value: 'pizza-1', viewValue: 'Pizza' },
-    { value: 'tacos-2', viewValue: 'Tacos' },
-  ];
+  ngOnInit() {
+    this.states = this.countryData.getStatesByShort('US');
+    this.cities = this.countryData.getCities('US', 'Florida');
+  }
 }
