@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AppService } from './app.service';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatSelectModule,
   ],
   declarations: [AppComponent],
+  providers: [AppService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

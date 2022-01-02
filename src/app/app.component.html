@@ -2,39 +2,48 @@
   <h4>Nested Selects: Country-State-City</h4>
   <mat-form-field appearance="fill">
     <mat-label>Country</mat-label>
-    <mat-select formControlName="country" name="country">
+    <mat-select
+      [formControl]="country"
+      name="country"
+      [errorStateMatcher]="matcher"
+    >
       <mat-option *ngFor="let country of countries" [value]="country.shortName">
         {{ country.name }}
       </mat-option>
     </mat-select>
+    <mat-error *ngIf="country.hasError('required')"
+      >Please select a country.</mat-error
+    >
   </mat-form-field>
   <p></p>
   <mat-form-field appearance="fill">
     <mat-label>State</mat-label>
     <mat-select
-      formControlName="state"
+      [formControl]="state"
       name="state"
-      [disabled]="!form.get('country').value"
+      [errorStateMatcher]="matcher"
     >
       <mat-option *ngFor="let state of states" [value]="state">
         {{ state }}
       </mat-option>
     </mat-select>
+    <mat-error *ngIf="state.hasError('required')"
+      >Please select a state.</mat-error
+    >
   </mat-form-field>
   <p></p>
   <mat-form-field appearance="fill">
     <mat-label>City</mat-label>
-    <mat-select
-      formControlName="city"
-      name="city"
-      [disabled]="!form.get('state').value"
-    >
+    <mat-select [formControl]="city" name="city" [errorStateMatcher]="matcher">
       <mat-option *ngFor="let city of cities" [value]="city">
         {{ city }}
       </mat-option>
     </mat-select>
+    <mat-error *ngIf="city.hasError('required')"
+      >Please select a city.</mat-error
+    >
   </mat-form-field>
-  <p>Country: {{ form.get('country')?.value }}</p>
-  <p>State: {{ form.get('state')?.value }}</p>
-  <p>City: {{ form.get('city')?.value }}</p>
+  <p>Country: {{ country.value }}</p>
+  <p>State: {{ state.value }}</p>
+  <p>City: {{ city.value }}</p>
 </form>

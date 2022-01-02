@@ -1,6 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import * as countrycitystatejson from 'countrycitystatejson';
+import {
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  Validators,
+} from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { AppService } from './app.service';
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || isSubmitted)
+    );
+  }
+}
 
 interface Country {
   shortName: string;
@@ -14,36 +36,45 @@ interface Country {
 })
 export class AppComponent implements OnInit {
   form: FormGroup;
+  matcher = new MyErrorStateMatcher();
 
-  private countryData = countrycitystatejson;
   countries: Country[];
-  states: any[];
-  cities: any[];
+  states: string[];
+  cities: string[];
 
-  constructor(private fb: FormBuilder) {
-    this.countries = this.countryData.getCountries();
-    this.form = this.fb.group({
-      country: [null, Validators.required],
-      state: [null, Validators.required],
-      city: [null, Validators.required],
+  country = new FormControl(null, [Validators.required]);
+  state = new FormControl({ value: null, disabled: true }, [
+    Validators.required,
+  ]);
+  city = new FormControl({ value: null, disabled: true }, [
+    Validators.required,
+  ]);
+
+  constructor(private service: AppService) {
+    this.countries = this.service.getCountries();
+    this.form = new FormGroup({
+      country: this.country,
+      state: this.state,
+      city: this.city,
     });
   }
 
   ngOnInit() {
-    this.form.get('country').valueChanges.subscribe((country) => {
-      this.form.get('state').reset();
+    this.country.valueChanges.subscribe((country) => {
+      this.state.reset();
+      this.state.disable();
       if (country) {
-        this.states = this.countryData.getStatesByShort(country);
+        this.states = this.service.getStatesByCountry(country);
+        this.state.enable();
       }
     });
 
-    this.form.get('state').valueChanges.subscribe((state) => {
-      this.form.get('city').reset();
+    this.state.valueChanges.subscribe((state) => {
+      this.city.reset();
+      this.city.disable();
       if (state) {
-        this.cities = this.countryData.getCities(
-          this.form.get('country').value,
-          state
-        );
+        this.cities = this.service.getCitiesByState(this.country.value, state);
+        this.city.enable();
       }
     });
   }
