@@ -15,6 +15,9 @@
       >Please select a country.</mat-error
     >
   </mat-form-field>
+  <button mat-stroked-button class="btn" (click)="country.reset()">
+    Clear
+  </button>
   <p></p>
   <mat-form-field appearance="fill">
     <mat-label>State</mat-label>
@@ -31,6 +34,7 @@
       >Please select a state.</mat-error
     >
   </mat-form-field>
+  <button mat-stroked-button class="btn" (click)="state.reset()">Clear</button>
   <p></p>
   <mat-form-field appearance="fill">
     <mat-label>City</mat-label>
@@ -43,6 +47,7 @@
       >Please select a city.</mat-error
     >
   </mat-form-field>
+  <button mat-stroked-button class="btn" (click)="city.reset()">Clear</button>
   <p>Country: {{ country.value }}</p>
   <p>State: {{ state.value }}</p>
   <p>City: {{ city.value }}</p>

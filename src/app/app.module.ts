@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AppService } from './app.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { AppService } from './app.service';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatButtonModule,
   ],
   declarations: [AppComponent],
   providers: [AppService],
